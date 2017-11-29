@@ -1,12 +1,9 @@
-from os import walk
+from os import listdir
+from os.path import isfile, join
 
 
 def get_host_info():
-    hosts = [a, b]
-
-    for (dirpath, dirname, filename) in walk("cmds"):
-        filename = filename[:-4]
-        hosts += [filename]
+    hosts = [f for f in listdir("cmds") if isfile(join("cmds", f))]
 
     return hosts
 
@@ -23,7 +20,7 @@ def main():
         print("-----------------")
         
         for host in host_list:
-            print(host_num, ": ", host)
+            print(host_num, ": ", host[:-4])
             host_num = host_num + 1
         
         print("")
@@ -39,10 +36,20 @@ def main():
 
         command = input("Command to send: ")
 
-        cmd_file = open(host_list[host_num - 1] + ".txt")
-        cmd_file.truncate()
-        cmd_file.writelines(command)
-        cmd_file.close()
+        if host_num == 0:
+            for host in host_list:
+                cmd_file = open("cmds/" + host_list[host_num], "w")
+                cmd_file.truncate()
+                cmd_file.writelines(command)
+                cmd_file.close()
+                host_num = host_num + 1
+        else:
+            cmd_file = open("cmds/" + host_list[host_num - 1], "w")
+            cmd_file.truncate()
+            cmd_file.writelines(command)
+            cmd_file.close()
+        
+        escape = 1
 
 
 if __name__ == "__main__":
