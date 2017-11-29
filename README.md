@@ -2,8 +2,6 @@
 Python Flask-based command and control framework
 
 
-
-
 ## Usage
 Run setup.py to clear out docs and create filesystem
 
