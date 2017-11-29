@@ -3,11 +3,13 @@ Python Flask-based command and control framework
 
 
 ## Usage
-Run setup.py to clear out docs and create filesystem
+setup.py to clear out docs and create filesystem
 
-Run server.py to start c2 server
+server.py to start c2 server
 
-Run control.py to stage commands for agents to grab
+control.py to stage commands for agents to grab
+
+cleanup.py to remove existing log and cmd files
 
 
 ## Connecting implants
