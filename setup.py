@@ -2,12 +2,11 @@ import os
 
 
 def main():
-    os.remove("READEME.md")
+    os.remove("README.md")
     os.makedirs("logs")
     os.makedirs("cmds")
 
-    cmd_file = open("command.txt")
-    cmd_file.close()
+    cmd_file = open("command.txt", "a").close()
 
 
 if __name__ == '__main__':
